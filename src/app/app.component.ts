@@ -1,13 +1,26 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import { BoxStore } from './state/state';
+import { BoxComponent } from './components/Box/Box.component';
+import { SubBoxComponent } from './components/SubBox/SubBox.component';
+
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [AsyncPipe, JsonPipe, BoxComponent, SubBoxComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  title = 'boc-project-signal';
+
+  readonly state = inject(BoxStore);
+
+
+  result: number = 0;
+
+  reset() {
+    this.state.resetState();
+  }
 }
